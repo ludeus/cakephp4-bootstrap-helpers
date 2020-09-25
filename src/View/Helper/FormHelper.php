@@ -221,14 +221,15 @@ class FormHelper extends \Cake\View\Helper\FormHelper {
      * - `url` The URL the form submits to. Can be a string or a URL array. If you use 'url'
      *    you should leave 'action' undefined.
      *
-     * @param mixed $model The context for which the form is being defined. Can
-     *   be an ORM entity, ORM resultset, or an array of meta data. You can use false or null
-     *   to make a model-less form.
+     * @param mixed $context The context for which the form is being defined.
+     *   Can be a ContextInterface instance, ORM entity, ORM resultset, or an
+     *   array of meta data. You can use `null` to make a context-less form.
      * @param array $options An array of html attributes and options.
-     *
      * @return string An formatted opening FORM tag.
+     * @link https://book.cakephp.org/4/en/views/helpers/form.html#Cake\View\Helper\FormHelper::create
      */
-    public function create($model = null, Array $options = array()) {
+    public function create($context = null, array $options = []): string
+    {
         $options += [
             'horizontal' => false,
             'inline' => false
@@ -444,11 +445,13 @@ class FormHelper extends \Cake\View\Helper\FormHelper {
      *
      * @param string $fieldName This should be "modelname.fieldname"
      * @param array $options Each type of input takes different options.
-     *
      * @return string Completed form widget.
+     * @link https://book.cakephp.org/4/en/views/helpers/form.html#creating-form-inputs
+     * @psalm-suppress InvalidReturnType
+     * @psalm-suppress InvalidReturnStatement
      */
-    public function control($fieldName, array $options = array()) {
-
+    public function control(string $fieldName, array $options = []): string
+    {
         $options += [
             'type' => null,
             'label' => null,
@@ -559,10 +562,11 @@ class FormHelper extends \Cake\View\Helper\FormHelper {
      *
      * @param string $fieldName Name of a field, in the form "modelname.fieldname"
      * @param array $options Array of HTML attributes.
-     *
      * @return string A generated file input.
+     * @link https://book.cakephp.org/4/en/views/helpers/form.html#creating-file-inputs
      */
-    public function file($fieldName, array $options = []) {
+    public function file(string $fieldName, array $options = []): string
+    {
         $options += ['secure' => true];
         $options = $this->_initInputField($fieldName, $options);
         unset($options['type']);
@@ -588,12 +592,11 @@ class FormHelper extends \Cake\View\Helper\FormHelper {
      *
      * @param string $title The button's caption. Not automatically HTML encoded
      * @param array $options Array of options and HTML attributes.
-     *
      * @return string A HTML button tag.
-     *
-     * @link http://book.cakephp.org/3.0/en/views/helpers/form.html#creating-button-elements
+     * @link https://book.cakephp.org/4/en/views/helpers/form.html#creating-button-elements
      */
-    public function button($title, array $options = []) {
+    public function button(string $title, array $options = []): string
+    {
         list($options, $easyIcon) = $this->_easyIconOption($options);
         return $this->_injectIcon(parent::button($title, $this->_addButtonClasses($options)), $easyIcon);
     }
@@ -708,17 +711,16 @@ class FormHelper extends \Cake\View\Helper\FormHelper {
      * - `type` Set to 'reset' for reset inputs. Defaults to 'submit'
      * - Other attributes will be assigned to the input element.
      *
-     * @param string|null $caption The label appearing on the button OR if string
-     * contains :// or the  extension .jpg, .jpe, .jpeg, .gif, .png use an image if
-     * the extension exists, AND the first character is /, image is relative to webroot,
+     * @param string|null $caption The label appearing on the button OR if string contains :// or the
+     *  extension .jpg, .jpe, .jpeg, .gif, .png use an image if the extension
+     *  exists, AND the first character is /, image is relative to webroot,
      *  OR if the first character is not /, image is relative to webroot/img.
-     *
      * @param array $options Array of options. See above.
-     *
      * @return string A HTML submit button
-     * @link http://book.cakephp.org/3.0/en/views/helpers/form.html#creating-buttons-and-submit-elements
+     * @link https://book.cakephp.org/4/en/views/helpers/form.html#creating-buttons-and-submit-elements
      */
-    public function submit($caption = null, array $options = array()) {
+    public function submit(?string $caption = null, array $options = []): string
+    {
         return parent::submit($caption, $this->_addButtonClasses($options));
     }
 
